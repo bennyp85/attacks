@@ -7,29 +7,72 @@ p = int(input('Enter a prime number : '))
 g = int(input('Enter a number : '))
 
 class A:
-   def __init__(self):
-       # Generating a random private number selected by alice
-       self.n = random.randint(1, p)
-   def publish(self):
-       # generating public values
-       return (g**self.n) % p
-   def compute_secret(self, gb):
-       # computing secret key
-       return (gb**self.n) % p
+    """
+    Class representing a participant in the Diffie-Hellman key exchange protocol.
+
+    Attributes:
+        n (int): The private number selected by Alice.
+
+    Methods:
+        publish(): Generates and returns the public value.
+        compute_secret(gb): Computes and returns the secret key using the received public value.
+    """
+
+    def __init__(self):
+        self.n = random.randint(1, p)
+
+    def publish(self):
+        return (g**self.n) % p
+
+    def compute_secret(self, gb):
+        return (gb**self.n) % p
 
 class B:
-   def __init__(self):
-       # Generating a random private number selected for alice
-       self.a = random.randint(1, p)
-       # Generating a random private number selected for bob
-       self.b = random.randint(1, p)
-       self.arr = [self.a, self.b]
-   def publish(self, i):
-       # generating public values
-       return (g**self.arr[i]) % p
-   def compute_secret(self, ga, i):
-       # computing secret key
-       return (ga**self.arr[i]) % p
+    """
+    Class representing a participant in the Diffie-Hellman key exchange protocol.
+
+    Attributes:
+        a (int): Random private number selected for Alice.
+        b (int): Random private number selected for Bob.
+        arr (list): List containing the private numbers of Alice and Bob.
+
+    Methods:
+        publish(i): Generates and returns the public value for the given participant index.
+        compute_secret(ga, i): Computes and returns the secret key for the given participant index.
+
+    """
+
+    def __init__(self):
+        self.a = random.randint(1, p)
+        self.b = random.randint(1, p)
+        self.arr = [self.a, self.b]
+
+    def publish(self, i):
+        """
+        Generates and returns the public value for the given participant index.
+
+        Args:
+            i (int): Index of the participant.
+
+        Returns:
+            int: The computed public value.
+
+        """
+        return (g**self.arr[i]) % p
+
+    def compute_secret(self, ga, i):
+        """
+        Computes and returns the secret key for the given participant index.
+
+        Args:
+            ga (int): The public value received from the other participant.
+            i (int): Index of the participant.
+
+        Returns:
+            int: The computed secret key.
+
+        """
+        return (ga**self.arr[i]) % p
 
 alice = A()
 bob = A()
